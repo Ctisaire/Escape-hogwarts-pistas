@@ -155,50 +155,236 @@ const pistas = {
 
 1:{
 titulo:"🔐 Mensaje Encriptado",
-texto:"PENDIENTE",
-ayuda:"PENDIENTE",
-respuesta:"ZONAVERDE",
-destino:"ZONAVERDE"
+
+texto:`
+SIGUIENTE PISTA
+
+<br><br>
+
+26 - 15 - 14 - 1
+
+<br>
+
+22 - 5 - 18 - 4 - 5
+
+<br><br>
+
+📜 Descifra el mensaje oculto para continuar.
+`,
+
+ayuda:`
+🦉 Ayuda:
+
+<br><br>
+
+Piensa en la posición que ocupa cada letra dentro del abecedario.
+`,
+
+respuesta:"zona verde",
+
+destino:"ZONA VERDE"
 },
 
 2:{
-titulo:"📜 Pista 2",
-texto:"PENDIENTE",
-ayuda:"PENDIENTE",
-respuesta:"pendiente",
-destino:"PENDIENTE"
+titulo:"📜 Los Nueve Guardianes",
+
+texto:`
+Nueve guardianes permanecen juntos.
+
+<br><br>
+
+No hablan.
+
+<br><br>
+
+No se mueven.
+
+<br><br>
+
+Pero llevan mucho tiempo protegiendo el siguiente camino.
+`,
+
+ayuda:`
+🦉 Ayuda:
+
+<br><br>
+
+Es donde están las mejores hamburguesas del barrio.
+`,
+
+respuesta:"nou pins",
+
+destino:"NOU PINS"
 },
 
 3:{
-titulo:"📜 Pista 3",
-texto:"PENDIENTE",
-ayuda:"PENDIENTE",
-respuesta:"pendiente",
-destino:"PENDIENTE"
+titulo:"🚇 La Estación Perdida",
+
+texto:`
+No soy una persona,
+
+<br>
+
+pero llevo tu nombre.
+
+<br><br>
+
+No soy Hogwarts,
+
+<br>
+
+pero tiene estación.
+
+<br><br>
+
+No necesitas escoba
+
+<br>
+
+para llegar hasta mí.
+`,
+
+ayuda:`
+🦉 Ayuda:
+
+<br><br>
+
+Lo usamos para viajar.
+`,
+
+respuesta:"metro via julia",
+
+destino:"METRO VÍA JÚLIA"
 },
 
 4:{
-titulo:"📜 Pista 4",
-texto:"PENDIENTE",
-ayuda:"PENDIENTE",
-respuesta:"pendiente",
-destino:"PENDIENTE"
+titulo:"🌊 El Susurro del Agua",
+
+texto:`
+Lo que buscas está cerca.
+
+<br><br>
+
+Pero el agua protege aquello que los ojos no pueden encontrar.
+
+<br><br>
+
+Los muggles mirarían la superficie.
+
+<br><br>
+
+Los magos la corriente han de escuchar.
+`,
+
+ayuda:`
+🦉 Ayuda:
+
+<br><br>
+
+Puedes bañarte si quieres.
+`,
+
+respuesta:"fuentes via julia",
+
+destino:"FUENTES VÍA JÚLIA"
 },
 
 5:{
-titulo:"📜 Pista 5",
-texto:"PENDIENTE",
-ayuda:"PENDIENTE",
-respuesta:"pendiente",
-destino:"PENDIENTE"
+titulo:"🏰 El Corazón del Reino",
+
+texto:`
+Has encontrado lo que el agua escondía,
+
+<br>
+
+pero el camino aún no ha terminado.
+
+<br><br>
+
+Ahora busca el lugar donde late el corazón
+
+<br>
+
+de este pequeño reino muggle.
+
+<br><br>
+
+Donde sus caminos se encuentran,
+
+<br>
+
+donde los habitantes se reúnen,
+
+<br>
+
+y donde tantas historias comienzan y terminan.
+
+<br><br>
+
+<strong>Allí te espera el siguiente secreto.</strong>
+`,
+
+ayuda:`
+🦉 Ayuda:
+
+<br><br>
+
+El centro del barrio.
+`,
+
+respuesta:"plaza angel pestaña",
+
+destino:"PLAZA ÁNGEL PESTAÑA"
 },
 
 6:{
-titulo:"🏆 Pista Final",
-texto:"PENDIENTE",
-ayuda:"PENDIENTE",
-respuesta:"pendiente",
-destino:"PENDIENTE"
+titulo:"🏆 La Última Pista",
+
+texto:`
+Lo has conseguido.
+
+<br><br>
+
+Has seguido cada pista.
+
+<br><br>
+
+Has encontrado cada secreto.
+
+<br><br>
+
+Y has llegado hasta el final.
+
+<br><br>
+
+Pero todavía queda un último hechizo.
+
+<br><br>
+
+Todo mago que emprende un viaje necesita saber cuándo regresar.
+
+<br><br>
+
+Tu última pista no te llevará a otro lugar desconocido.
+
+<br><br>
+
+Sigue el camino que tantas veces has recorrido.
+
+<br><br>
+
+Allí donde comenzó esta aventura,
+
+<br><br>
+
+<strong>Vuelve al lugar donde empezó todo.</strong>
+`,
+
+ayuda:"",
+
+respuesta:"tu hogar",
+
+destino:"🏠 TU HOGAR"
 }
 
 };
@@ -218,19 +404,29 @@ datos.texto;
 document.getElementById("ayuda").innerHTML =
 datos.ayuda;
 
-let intentos = 0;
+if(datos.ayuda===""){
+document.querySelector('button[onclick="mostrarAyuda()"]').style.display="none";
+}
+
+function normalizar(texto){
+
+return texto
+.toLowerCase()
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"")
+.replace(/\s+/g,"")
+.trim();
+
+}
 
 function comprobar(){
 
 const valor =
-document.getElementById("respuesta")
-.value
-.toLowerCase()
-.trim();
+document.getElementById("respuesta").value;
 
 if(
-valor === datos.respuesta.toLowerCase() ||
-valor === datos.respuesta.replaceAll(" ","").toLowerCase()
+normalizar(valor) ===
+normalizar(datos.respuesta)
 ){
 
 document.getElementById("resultado")
@@ -247,26 +443,12 @@ datos.destino
 return;
 }
 
-intentos++;
-
-if(intentos >= 2){
-
 document.getElementById("resultado")
 .className="incorrecto";
 
 document.getElementById("resultado")
 .innerHTML=
-"❌ Has agotado tus intentos.";
-
-}else{
-
-document.getElementById("resultado")
-.className="incorrecto";
-
-document.getElementById("resultado")
-.innerHTML=
-"❌ Incorrecto. Te queda un intento.";
-}
+"❌ La respuesta no parece correcta. Inténtalo de nuevo.";
 
 }
 

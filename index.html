@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>📜 Libro de Pistas</title>
+<title>📜 Libro de Pistas de Hogwarts</title>
 
-<link href="s.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -16,20 +17,20 @@ body{
     color:#d4af37;
     font-family:'Cinzel',serif;
     text-align:center;
-    padding:30px;
+    padding:20px;
 }
 
 .contenedor{
     max-width:800px;
     margin:auto;
-    padding:30px;
+    padding:25px;
     border:2px solid #d4af37;
     background:#1a1a1a;
     border-radius:10px;
 }
 
 .logo{
-    width:150px;
+    width:140px;
     display:block;
     margin:auto;
 }
@@ -91,6 +92,21 @@ button:hover{
     color:#ff6d6d;
 }
 
+@media(max-width:600px){
+
+    #texto{
+        font-size:18px;
+    }
+
+    h1{
+        font-size:28px;
+    }
+
+    input{
+        font-size:16px;
+    }
+}
+
 </style>
 
 </head>
@@ -98,10 +114,10 @@ button:hover{
 <body>
 
 <audio id="music" loop>
-  <source src="./music.mp3" type="audio/mpeg">
+    <source src="./music.mp3>
 </audio>
 
-<button class="boton-musica" onclick="toggleMusic()">
+<button onclick="toggleMusic()">
 🎵 Activar / Desactivar Música
 </button>
 
@@ -111,27 +127,9 @@ button:hover{
 
 <h1>📜 Libro de Pistas de Hogwarts 📜</h1>
 
-<h2 id="titulo">
-🔐 Mensaje Encriptado
-</h2>
+<h2 id="titulo"></h2>
 
-<div id="texto">
-
-SIGUIENTE PISTA
-
-<br><br>
-
-26 - 15 - 14 - 1
-
-<br>
-
-22 - 5 - 18 - 4 - 5
-
-<br><br>
-
-📜 Descifra el mensaje oculto para continuar.
-
-</div>
+<div id="texto"></div>
 
 <input
 id="respuesta"
@@ -145,13 +143,7 @@ placeholder="Escribe tu respuesta...">
 🦉 Pedir Ayuda
 </button>
 
-<div id="ayuda">
-🦉 Ayuda:
-
-<br><br>
-
-Piensa en la posición que ocupa cada letra dentro del alfabeto.
-</div>
+<div id="ayuda"></div>
 
 <div id="resultado"></div>
 
@@ -159,58 +151,129 @@ Piensa en la posición que ocupa cada letra dentro del alfabeto.
 
 <script>
 
+const pistas = {
+
+1:{
+titulo:"🔐 Mensaje Encriptado",
+texto:"PENDIENTE",
+ayuda:"PENDIENTE",
+respuesta:"pendiente",
+destino:"PENDIENTE"
+},
+
+2:{
+titulo:"📜 Pista 2",
+texto:"PENDIENTE",
+ayuda:"PENDIENTE",
+respuesta:"pendiente",
+destino:"PENDIENTE"
+},
+
+3:{
+titulo:"📜 Pista 3",
+texto:"PENDIENTE",
+ayuda:"PENDIENTE",
+respuesta:"pendiente",
+destino:"PENDIENTE"
+},
+
+4:{
+titulo:"📜 Pista 4",
+texto:"PENDIENTE",
+ayuda:"PENDIENTE",
+respuesta:"pendiente",
+destino:"PENDIENTE"
+},
+
+5:{
+titulo:"📜 Pista 5",
+texto:"PENDIENTE",
+ayuda:"PENDIENTE",
+respuesta:"pendiente",
+destino:"PENDIENTE"
+},
+
+6:{
+titulo:"🏆 Pista Final",
+texto:"PENDIENTE",
+ayuda:"PENDIENTE",
+respuesta:"pendiente",
+destino:"PENDIENTE"
+}
+
+};
+
+const parametro =
+new URLSearchParams(window.location.search)
+.get("pista") || "1";
+
+const datos = pistas[parametro];
+
+document.getElementById("titulo").innerHTML =
+datos.titulo;
+
+document.getElementById("texto").innerHTML =
+datos.texto;
+
+document.getElementById("ayuda").innerHTML =
+datos.ayuda;
+
 let intentos = 0;
 
 function comprobar(){
 
-    const valor =
-    document.getElementById("respuesta")
-    .value
-    .toLowerCase()
-    .trim();
+const valor =
+document.getElementById("respuesta")
+.value
+.toLowerCase()
+.trim();
 
-    if(
-        valor === "zona verde" ||
-        valor === "zonaverde"
-    ){
+if(
+valor === datos.respuesta.toLowerCase() ||
+valor === datos.respuesta.replaceAll(" ","").toLowerCase()
+){
 
-        document.getElementById("resultado")
-        .className="correcto";
+document.getElementById("resultado")
+.className="correcto";
 
-        document.getElementById("resultado")
-        .innerHTML=
-        "✅ Correcto.<br><br>⚡ La magia ha revelado el siguiente destino:<br><br><strong>ZONA VERDE</strong>";
+document.getElementById("resultado")
+.innerHTML=
+"✅ Correcto.<br><br>⚡ La magia ha revelado el siguiente destino:<br><br><strong>"
++
+datos.destino
++
+"</strong>";
 
-        return;
-    }
+return;
+}
 
-    intentos++;
+intentos++;
 
-    if(intentos >= 2){
+if(intentos >= 2){
 
-        document.getElementById("resultado")
-        .className="incorrecto";
+document.getElementById("resultado")
+.className="incorrecto";
 
-        document.getElementById("resultado")
-        .innerHTML=
-        "❌ Has agotado tus intentos.";
+document.getElementById("resultado")
+.innerHTML=
+"❌ Has agotado tus intentos.";
 
-    }else{
+}else{
 
-        document.getElementById("resultado")
-        .className="incorrecto";
+document.getElementById("resultado")
+.className="incorrecto";
 
-        document.getElementById("resultado")
-        .innerHTML=
-        "❌ Incorrecto. Te queda un intento.";
-    }
+document.getElementById("resultado")
+.innerHTML=
+"❌ Incorrecto. Te queda un intento.";
+}
 
 }
 
 function mostrarAyuda(){
 
-    document.getElementById("ayuda")
-    .style.display="block";
+document.getElementById("ayuda")
+.style.display="block";
 
 }
 
@@ -218,25 +281,25 @@ const music=document.getElementById("music");
 
 function toggleMusic(){
 
-    if(music.paused){
+if(music.paused){
 
-        music.play();
+music.play();
 
-    }else{
+}else{
 
-        music.pause();
+music.pause();
 
-    }
+}
 
 }
 
 document.addEventListener("click",()=>{
 
-    if(music.paused){
+if(music.paused){
 
-        music.play().catch(()=>{});
+music.play().catch(()=>{});
 
-    }
+}
 
 },{once:true});
 

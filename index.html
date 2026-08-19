@@ -5,209 +5,48 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>📜 Libro de Pistas de Hogwarts</title>
+<title>Libro de Pistas</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
 body{
-
+background:#111;
+color:#d4af37;
 font-family:'Cinzel',serif;
-
-background:
-radial-gradient(circle,#1e1e1e,#050505);
-
-color:#f1d38b;
-
-min-height:100vh;
-
-overflow-x:hidden;
-}
-
-.magic{
-
-position:fixed;
-
-width:3px;
-height:3px;
-
-background:gold;
-
-border-radius:50%;
-
-opacity:.8;
-
-animation:float linear infinite;
-
-pointer-events:none;
-}
-
-@keyframes float{
-
-0%{
-transform:translateY(105vh);
-opacity:0;
-}
-
-20%{
-opacity:1;
-}
-
-80%{
-opacity:1;
-}
-
-100%{
-transform:translateY(-50px);
-opacity:0;
-}
-
+text-align:center;
+padding:30px;
 }
 
 .contenedor{
-
-width:95%;
-
-max-width:900px;
-
-margin:20px auto;
-
+max-width:800px;
+margin:auto;
 padding:30px;
-
-background:
-rgba(10,10,10,.88);
-
 border:2px solid #d4af37;
-
-border-radius:12px;
-
-box-shadow:
-0 0 25px rgba(212,175,55,.3);
+background:#1a1a1a;
+border-radius:10px;
 }
 
 .logo{
-
-width:140px;
-
+width:150px;
 display:block;
-
 margin:auto;
 }
 
-h1{
-
-text-align:center;
-
-margin-top:15px;
-
-color:#d4af37;
-
-font-size:42px;
-
-text-shadow:
-0 0 12px gold;
-}
-
-.titulo{
-
-margin-top:30px;
-
-font-size:30px;
-
-text-align:center;
-
-color:#ffd700;
-}
-
-.texto{
-
-margin-top:25px;
-
-font-size:22px;
-
-line-height:1.8;
-
-text-align:center;
-}
-
 input{
-
 width:100%;
-
-margin-top:25px;
-
-padding:15px;
-
-font-size:18px;
-
-text-align:center;
-
-border:none;
-
-border-radius:8px;
+padding:12px;
+margin-top:20px;
 }
 
 button{
-
 width:100%;
-
-margin-top:15px;
-
-padding:15px;
-
-font-size:18px;
-
-font-weight:bold;
-
+padding:12px;
+margin-top:10px;
 background:#d4af37;
-
 border:none;
-
-border-radius:8px;
-
 cursor:pointer;
-}
-
-button:hover{
-
-background:#f1c94c;
-}
-
-#resultado{
-
-margin-top:25px;
-
-font-size:22px;
-
-font-weight:bold;
-
-text-align:center;
-}
-
-.correcto{
-
-color:#63ff63;
-}
-
-.incorrecto{
-
-color:#ff6b6b;
-}
-
-.footer{
-
-margin-top:30px;
-
-text-align:center;
-
-opacity:.8;
 }
 
 </style>
@@ -217,7 +56,7 @@ opacity:.8;
 <body>
 
 <audio id="music" loop>
-<source src="musicdio/mpeg">
+music.mp3
 </audio>
 
 <div class="contenedor">
@@ -226,4 +65,63 @@ opacity:.8;
 
 <h1>📜 Libro de Pistas de Hogwarts 📜</h1>
 
-<div id
+<h2 id="titulo">Pista 1</h2>
+
+<p id="texto">
+Aquí aparecerá tu acertijo.
+</p>
+
+<input id="respuesta" placeholder="Escribe tu respuesta">
+
+<button onclick="comprobar()">
+🪄 Revelar Magia
+</button>
+
+<button onclick="toggleMusic()">
+🎵 Música
+</button>
+
+<div id="resultado"></div>
+
+</div>
+
+<script>
+
+function comprobar(){
+
+const valor=document.getElementById("respuesta").value;
+
+if(valor.toLowerCase()=="respuesta1"){
+
+document.getElementById("resultado").innerHTML=
+"✅ Correcto";
+
+}else{
+
+document.getElementById("resultado").innerHTML=
+"❌ Incorrecto";
+
+}
+
+}
+
+const music=document.getElementById("music");
+
+function toggleMusic(){
+
+if(music.paused){
+
+music.play();
+
+}else{
+
+music.pause();
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

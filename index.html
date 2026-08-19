@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>📜 Pistas de Hogwarts</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:'Cinzel',serif;
+
+background:
+radial-gradient(circle,#202020,#050505);
+
+color:#f1d38b;
+
+min-height:100vh;
+overflow-x:hidden;
+}
+
+.magic{
+
+position:fixed;
+
+width:3px;
+height:3px;
+
+background:gold;
+
+border-radius:50%;
+
+animation:float linear infinite;
+
+opacity:.8;
+}
+
+@keyframes float{
+
+0%{
+transform:translateY(100vh);
+opacity:0;
+}
+
+20%{
+opacity:1;
+}
+
+80%{
+opacity:1;
+}
+
+100%{
+transform:translateY(-50px);
+opacity:0;
+}
+
+}
+
+.contenedor{
+
+width:95%;
+max-width:850px;
+
+margin:25px auto;
+
+padding:35px;
+
+background:
+rgba(15,15,15,.9);
+
+border:2px solid #d4af37;
+
+border-radius:12px;
+
+box-shadow:
+0 0 30px rgba(212,175,55,.2);
+
+}
+
+.logo{
+
+width:140px;
+
+display:block;
+
+margin:auto;
+}
+
+h1{
+
+text-align:center;
+
+margin-top:15px;
+
+color:#d4af37;
+
+font-size:42px;
+
+text-shadow:
+0 0 10px gold;
+}
+
+.titulo{
+
+font-size:28px;
+
+margin-top:30px;
+
+text-align:center;
+
+color:#ffd700;
+}
+
+.texto{
+
+margin-top:25px;
+
+line-height:1.8;
+
+font-size:20px;
+
+text-align:center;
+}
+
+input{
+
+width:100%;
+
+margin-top:25px;
+
+padding:16px;
+
+font-size:18px;
+
+border-radius:8px;
+
+border:none;
+
+text-align:center;
+}
+
+button{
+
+width:100%;
+
+margin-top:15px;
+
+padding:16px;
+
+font-size:18px;
+
+font-weight:bold;
+
+background:#d4af37;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+}
+
+#resultado{
+
+margin-top:25px;
+
+text-align:center;
+
+font-size:22px;
+
+font-weight:bold;
+}
+
+#musicBtn{
+
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<audio id="music" loop>
+<source src="music.mp3" type="audioontenedor">
+
+<img src="hogwarts.png" class="logo">
+
+<h1>📜 Libro de Pistas de Hogwarts 📜</h1>
+
+<div id="titulo" class="titulo"></div>
+
+<div id="texto" class="texto"></div>
+
+<input
+id="respuesta"
+placeholder="Escribe tu respuesta...">
+
+<button onclick="comprobar()">
+🪄 Revelar Magia
+</button>
+
+<button id="musicBtn" onclick="toggleMusic()">
+🎵 Activar Música
+</button>
+
+<div id="resultado"></div>
+
+</div>
+
+<script>
+
+for(let i=0;i<40;i++){
+
+const p=document.createElement("div");
+
+p.className="magic";
+
+p.style.left=Math.random()*100+"vw";
+
+p.style.animationDuration=
+(8+Math.random()*10)+"s";
+
+p.style.animationDelay=
+Math.random()*10+"s";
+
+document.body.appendChild(p);
+
+}
+
+const pistas={
+
+1:{
+titulo:"Pista del Mapa del Merodeador",
+texto:"Aquello que buscas no está lejos. Los muggles lo pisan cada día sin prestar atención.",
+respuesta:"camino"
+},
+
+2:{
+titulo:"El Acertijo del Fénix",
+texto:"Tiene agua pero no es un lago. Refleja el cielo pero no es un espejo.",
+respuesta:"fuente"
+},
+
+3:{
+titulo:"La Clave Perdida",
+texto:"Miles de personas pasan por allí cada día, pero casi nadie permanece mucho tiempo.",
+respuesta:"metro"
+},
+
+4:{
+titulo:"El Susurro del Bosque",
+texto:"Busca donde la naturaleza resiste entre la piedra de la ciudad.",
+respuesta:"parque"
+},
+
+5:{
+titulo:"El Mensaje de Dumbledore",
+texto:"El siguiente lugar lleva el nombre de alguien importante.",
+respuesta:"angel"
+},
+
+6:{
+titulo:"Última Pista",
+texto:"La magia te observa desde donde comenzaste tu aventura.",
+respuesta:"inicio"
+}
+
+};
+
+const parametro =
+new URLSearchParams(window.location.search)
+.get("pista") || "1";
+
+const datos = pistas[parametro];
+
+document.getElementById("titulo").innerText =
+datos.titulo;
+
+document.getElementById("texto").innerText =
+datos.texto;
+
+let intentos=0;
+
+function comprobar(){
+
+const valor =
+document.getElementById("respuesta")
+.value
+.toLowerCase()
+.trim();
+
+if(valor===datos.respuesta){
+
+document.getElementById("resultado")
+.innerHTML=
+"✅ ¡Correcto! La magia te muestra el camino.";
+
+return;
+}
+
+intentos++;
+
+if(intentos>=2){
+
+document.getElementById("resultado")
+.innerHTML=
+"❌ Has gastado tus intentos.";
+
+}else{
+
+document.getElementById("resultado")
+.innerHTML=
+"❌ Incorrecto. Te queda un intento.";
+}
+
+}
+
+const music=document.getElementById("music");
+const musicBtn=document.getElementById("musicBtn");
+
+function toggleMusic(){
+
+if(music.paused){
+
+music.play();
+
+musicBtn.innerHTML=
+"🔇 Silenciar Música";
+
+}else{
+
+music.pause();
+
+musicBtn.innerHTML=
+"🎵 Activar Música";
+}
+
+}
+
+document.addEventListener("click",()=>{
+
+if(music.paused){
+
+music.play().catch(()=>{});
+
+}
+
+},{once:true});
+
+</script>
+
+</body>
+</html>

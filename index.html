@@ -5,48 +5,90 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Libro de Pistas</title>
+<title>📜 Libro de Pistas</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="s.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 body{
-background:#111;
-color:#d4af37;
-font-family:'Cinzel',serif;
-text-align:center;
-padding:30px;
+    background:#111;
+    color:#d4af37;
+    font-family:'Cinzel',serif;
+    text-align:center;
+    padding:30px;
 }
 
 .contenedor{
-max-width:800px;
-margin:auto;
-padding:30px;
-border:2px solid #d4af37;
-background:#1a1a1a;
-border-radius:10px;
+    max-width:800px;
+    margin:auto;
+    padding:30px;
+    border:2px solid #d4af37;
+    background:#1a1a1a;
+    border-radius:10px;
 }
 
 .logo{
-width:150px;
-display:block;
-margin:auto;
+    width:150px;
+    display:block;
+    margin:auto;
+}
+
+h1{
+    margin-top:20px;
+}
+
+#texto{
+    margin-top:20px;
+    font-size:22px;
+    line-height:1.8;
 }
 
 input{
-width:100%;
-padding:12px;
-margin-top:20px;
+    width:100%;
+    padding:12px;
+    margin-top:20px;
+    border:none;
+    border-radius:5px;
+    font-size:18px;
+    text-align:center;
 }
 
 button{
-width:100%;
-padding:12px;
-margin-top:10px;
-background:#d4af37;
-border:none;
-cursor:pointer;
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    background:#d4af37;
+    border:none;
+    cursor:pointer;
+    border-radius:5px;
+    font-size:16px;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#f0c75d;
+}
+
+#resultado{
+    margin-top:20px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+#ayuda{
+    display:none;
+    margin-top:20px;
+    color:#ffd700;
+    font-size:18px;
+}
+
+.correcto{
+    color:#6dff7b;
+}
+
+.incorrecto{
+    color:#ff6d6d;
 }
 
 </style>
@@ -56,30 +98,60 @@ cursor:pointer;
 <body>
 
 <audio id="music" loop>
-music.mp3
+    music.mp3
 </audio>
 
 <div class="contenedor">
 
-<img src="hogwarts.png" class="logo">
+" class="logo">
 
 <h1>📜 Libro de Pistas de Hogwarts 📜</h1>
 
-<h2 id="titulo">Pista 1</h2>
+<h2 id="titulo">
+🔐 Mensaje Encriptado
+</h2>
 
-<p id="texto">
-Aquí aparecerá tu acertijo.
-</p>
+<div id="texto">
 
-<input id="respuesta" placeholder="Escribe tu respuesta">
+SIGUIENTE PISTA
+
+<br><br>
+
+26 - 15 - 14 - 1
+
+<br>
+
+22 - 5 - 18 - 4 - 5
+
+<br><br>
+
+📜 Descifra el mensaje oculto para continuar.
+
+</div>
+
+<input
+id="respuesta"
+placeholder="Escribe tu respuesta...">
 
 <button onclick="comprobar()">
 🪄 Revelar Magia
 </button>
 
+<button onclick="mostrarAyuda()">
+🦉 Pedir Ayuda
+</button>
+
 <button onclick="toggleMusic()">
 🎵 Música
 </button>
+
+<div id="ayuda">
+🦉 Ayuda:
+
+<br><br>
+
+Piensa en la posición que ocupa cada letra dentro del alfabeto.
+</div>
 
 <div id="resultado"></div>
 
@@ -87,21 +159,58 @@ Aquí aparecerá tu acertijo.
 
 <script>
 
+let intentos = 0;
+
 function comprobar(){
 
-const valor=document.getElementById("respuesta").value;
+    const valor =
+    document.getElementById("respuesta")
+    .value
+    .toLowerCase()
+    .trim();
 
-if(valor.toLowerCase()=="respuesta1"){
+    if(
+        valor === "zona verde" ||
+        valor === "zonaverde"
+    ){
 
-document.getElementById("resultado").innerHTML=
-"✅ Correcto";
+        document.getElementById("resultado")
+        .className="correcto";
 
-}else{
+        document.getElementById("resultado")
+        .innerHTML=
+        "✅ Correcto.<br><br>⚡ La magia ha revelado el siguiente destino:<br><br><strong>ZONA VERDE</strong>";
 
-document.getElementById("resultado").innerHTML=
-"❌ Incorrecto";
+        return;
+    }
+
+    intentos++;
+
+    if(intentos >= 2){
+
+        document.getElementById("resultado")
+        .className="incorrecto";
+
+        document.getElementById("resultado")
+        .innerHTML=
+        "❌ Has agotado tus intentos.";
+
+    }else{
+
+        document.getElementById("resultado")
+        .className="incorrecto";
+
+        document.getElementById("resultado")
+        .innerHTML=
+        "❌ Incorrecto. Te queda un intento.";
+    }
 
 }
+
+function mostrarAyuda(){
+
+    document.getElementById("ayuda")
+    .style.display="block";
 
 }
 
@@ -109,17 +218,27 @@ const music=document.getElementById("music");
 
 function toggleMusic(){
 
-if(music.paused){
+    if(music.paused){
 
-music.play();
+        music.play();
 
-}else{
+    }else{
 
-music.pause();
+        music.pause();
+
+    }
 
 }
 
-}
+document.addEventListener("click",()=>{
+
+    if(music.paused){
+
+        music.play().catch(()=>{});
+
+    }
+
+},{once:true});
 
 </script>
 
